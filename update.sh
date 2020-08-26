@@ -23,8 +23,9 @@ update_image "library/debian" "Debian" "false" "$IMG_CHANNEL-\d+-slim"
 # Terraria Server
 CURRENT_APP_VERSION="${_CURRENT_VERSION%-*}"
 MIRROR="https://terraria.org"
-DOWNLOAD_URI=$(curl --silent --location "$MIRROR" | grep -P -o "(?<=href=.).*\.zip")
-NEW_APP_VERSION=$(echo $DOWNLOAD_URI | grep -P -o "\d{4}(?=.zip)" | sed 's/./&\./g' | sed 's/\.$//')
+VERSION_REGEX="\d{4}"
+DOWNLOAD_URI=$(curl --silent --location "$MIRROR" | grep -P -o "(?<=href=.).*$VERSION_REGEX\.zip")
+NEW_APP_VERSION=$(echo $DOWNLOAD_URI | grep -P -o "$VERSION_REGEX(?=.zip)" | sed 's|.|&\.|g' | sed 's|\.$||')
 if [ "$CURRENT_APP_VERSION" != "$NEW_APP_VERSION" ]; then
 	prepare_update "" "Terraria Server" "$CURRENT_APP_VERSION" "$NEW_APP_VERSION"
 	update_version "$NEW_APP_VERSION"
