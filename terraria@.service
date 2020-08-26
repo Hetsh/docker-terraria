@@ -1,21 +1,19 @@
 [Unit]
-Description=Terraria server on %I
+Description=Terraria server on port %I
 After=docker.service
 Requires=docker.service
 
 [Service]
 ExecStartPre=-/bin/docker create \
-              --env WORLD_TYPE=%I \
-              --env WORLD_NAME=%I \
               --rm \
+              --interactive \
               --name terraria_%I \
-              --publish 27500:27500/udp \
-              --publish 27015:27015/udp \
+              --publish %I:7777/tcp \
               --mount type=bind,source=/apps/terraria/%I,target=/terraria \
               --mount type=bind,source=/etc/localtime,target=/etc/localtime,readonly \
               hetsh/terraria
 ExecStart=/bin/docker start --attach terraria_%I
-ExecStop=/bin/docker stop terraria_%I
+ExecStop=/bin/sh -c "echo exit | docker attach terraria_%I"
 
 [Install]
 WantedBy=multi-user.target

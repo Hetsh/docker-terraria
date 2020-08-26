@@ -3,29 +3,26 @@ Simple to set up terraria server.
 
 ## Running the server
 ```bash
-docker run --detach --name terraria --publish 27500:27500/udp --publish 27015:27015/udp hetsh/terraria
+docker run --detach --interactive --name terraria --publish 7777:7777/tcp hetsh/terraria
 ```
+`--interactive` enables passing commands to the running server (required for shutdown).
 
 ## Stopping the container
 ```bash
 docker stop terraria
 ```
 
-## Updates
-This image contains a specific version of the game and will not update on startup, this decreases starting time and disk space usage. Version number is the manifest id that can also be found on [SteamDB](https://steamdb.info/depot/600762/). This id and therefore the image on docker hub is updated hourly.
-
-## Configuring Maps
-Maps (worlds) are configured via environment variables `WORLD_TYPE` and `WORLD_NAME` with default values `Moon` and `Base`.
-To create a new world use additional parameters (Mars only example) `--env WORLD_TYPE=Mars --env WORLD_NAME=MarsBase` when launching the container.
-If `WORLD_NAME` already exists, the save is loaded instead and `WORLD_TYPE` is ignored.
+## Configuration
+Terraria Server is configured via configuration file `/terraria/config.txt`.
+Configuable parameters are listed on the terraria [wiki](https://terraria.gamepedia.com/Server#Server_config_file).
 
 ## Creating persistent storage
 ```bash
 MP="/path/to/storage"
 mkdir -p "$MP"
-chown -R 1358:1358 "$MP"
+chown -R 1369:1369 "$MP"
 ```
-`1358` is the numerical id of the user running the server (see Dockerfile).
+`1369` is the numerical id of the user running the server (see Dockerfile).
 Start the server with the additional mount flag:
 ```bash
 docker run --mount type=bind,source=/path/to/storage,target=/terraria ...
@@ -34,10 +31,10 @@ docker run --mount type=bind,source=/path/to/storage,target=/terraria ...
 ## Automate startup and shutdown via systemd
 The systemd unit can be found in my GitHub [repository](https://github.com/Hetsh/docker-terraria).
 ```bash
-systemctl enable terraria@<world> --now
+systemctl enable terraria@<port> --now
 ```
-Individual server instances are distinguished by world.
-By default, the systemd service assumes `/apps/terraria/<world>` for persistent storage and `/etc/localtime` for timezone.
+Individual server instances are distinguished by port.
+By default, the systemd service assumes `/apps/terraria/<port>` for persistent storage and `/etc/localtime` for timezone.
 Since this is a personal systemd unit file, you might need to adjust some parameters to suit your setup.
 
 ## Fork Me!

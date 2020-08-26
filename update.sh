@@ -16,18 +16,29 @@ source libs/docker.sh
 assert_dependency "jq"
 assert_dependency "curl"
 
-# Debian Stable with SteamCMD
-update_image "hetsh/steamcmd" "SteamCMD" "false" "(\d+\.)+\d+-\d+"
+# Debian Stable
+IMG_CHANNEL="stable"
+update_image "library/debian" "Debian" "false" "$IMG_CHANNEL-\d+-slim"
 
-# Terraria
-RS_PKG="MANIFEST_ID" # Steam depot id for identification
-RS_REGEX="\d+"
-CURRENT_RS_VERSION=$(cat Dockerfile | grep -P -o "$RS_PKG=\K$RS_REGEX")
-NEW_RS_VERSION=$(curl --silent --location "https://steamdb.info/depot/600762/" | grep -P -o "<td>\K$RS_REGEX" | tail -n 1)
-if [ "$CURRENT_RS_VERSION" != "$NEW_RS_VERSION" ]; then
-	prepare_update "$RS_PKG" "Terraria" "$CURRENT_RS_VERSION" "$NEW_RS_VERSION"
-	update_version "$NEW_RS_VERSION"
+# Terraria Server
+CURRENT_APP_VERSION="${_CURRENT_VERSION%-*}"
+MIRROR="https://terraria.org"
+DOWNLOAD_URI=$(curl --silent --location "$MIRROR" | grep -P -o "(?<=href=.).*\.zip")
+NEW_APP_VERSION=$(echo $DOWNLOAD_URI | grep -P -o "\d{4}(?=.zip)" | sed 's/./&\./g' | sed 's/\.$//')
+if [ "$CURRENT_APP_VERSION" != "$NEW_APP_VERSION" ]; then
+	prepare_update "" "Terraria Server" "$CURRENT_APP_VERSION" "$NEW_APP_VERSION"
+	update_version "$NEW_APP_VERSION"
+
+	# Since the terraria server is not a regular package, the version number needs
+	# to be replaced with the url to download the archive
+	_UPDATES[-3]="APP_URL"
+	_UPDATES[-2]="\".*\""
+	_UPDATES[-1]="\"$MIRROR/$DOWNLOAD_URI\""
 fi
+
+# Packages
+PKG_URL="https://packages.debian.org/$IMG_CHANNEL/amd64"
+update_pkg "unzip" "Unzip" "false" "$PKG_URL" "\d+\.\d+-\d+\+deb\d+u\d+"
 
 if ! updates_available; then
 	#echo "No updates available."
