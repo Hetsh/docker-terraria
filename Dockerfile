@@ -14,7 +14,7 @@ RUN useradd --uid "$APP_UID" --user-group --create-home --home "$DATA_DIR" --she
 # Download app
 ARG APP_DIR="/opt/terraria"
 ARG APP_ARCHIVE="terraria.zip"
-ARG APP_URL="https://terraria.org/server/terraria-server-1401.zip"
+ARG APP_URL="https://terraria.org/system/dedicated_servers/archives/000/000/036/original/terraria-server-1402.zip"
 ADD "$APP_URL" "$APP_ARCHIVE"
 RUN TMP_DIR="/opt" && \
     unzip -d "$TMP_DIR" "$APP_ARCHIVE" && \
