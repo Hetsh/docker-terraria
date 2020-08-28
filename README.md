@@ -9,8 +9,9 @@ docker run --detach --interactive --name terraria --publish 7777:7777/tcp hetsh/
 
 ## Stopping the container
 ```bash
-docker stop terraria
+echo exit | docker attach terraria
 ```
+Because the terraria server does not save the world when receiving the `SIGTERM` signal that is sent by `docker stop`, we have to gracefully shut down the server by piping the `exit` command to the container.
 
 ## Configuration
 Terraria Server is configured via configuration file `/terraria/config.txt`.
