@@ -20,7 +20,7 @@ RUN TMP_DIR="/opt" && \
     unzip -d "$TMP_DIR" "$APP_ARCHIVE" && \
     apt-get purge -y unzip && \
     mv "$TMP_DIR/"*"/Linux" "$APP_DIR" && \
-    rm -r "$APP_ARCHIVE" "$APP_DIR/changelog.txt" "$APP_DIR/lib" "$APP_DIR/Terraria.png" "$APP_DIR/TerrariaServer" "$APP_DIR/TerrariaServer.bin.x86" && \
+    rm -r -f "$APP_ARCHIVE" "$APP_DIR/changelog.txt" "$APP_DIR/lib" "$APP_DIR/Terraria.png" "$APP_DIR/TerrariaServer" && \
     chmod +x "$APP_DIR/TerrariaServer.bin.x86_64" && \
     chown -R "$APP_USER":"$APP_USER" "$APP_DIR"
 
