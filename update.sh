@@ -34,7 +34,7 @@ if [ "$CURRENT_APP_VERSION" != "$NEW_APP_VERSION" ]; then
 	# to be replaced with the url to download the archive
 	_UPDATES[-3]="APP_URL"
 	_UPDATES[-2]="\".*\""
-	_UPDATES[-1]="\"$MIRROR/$DOWNLOAD_URI\""
+	_UPDATES[-1]="\"${MIRROR}${DOWNLOAD_URI}\""
 fi
 
 # Packages
