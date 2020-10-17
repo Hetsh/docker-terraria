@@ -1,7 +1,7 @@
 FROM library/debian:stable-20201012-slim
 RUN DEBIAN_FRONTEND="noninteractive" && \
     apt-get update && \
-    apt-get install --assume-yes \
+    apt-get install  --no-install-recommends --assume-yes \
         unzip=6.0-23+deb10u1 && \
     rm -r /var/lib/apt/lists /var/cache/apt
 
@@ -24,7 +24,7 @@ RUN TMP_DIR="/opt" && \
     chmod +x "$APP_DIR/TerrariaServer.bin.x86_64" && \
     chown -R "$APP_USER":"$APP_USER" "$APP_DIR"
 
-# Config & Volume
+# Config
 ARG CONFIG="$DATA_DIR/config.txt"
 RUN WORLD_NAME="world" && \
     echo "world=$DATA_DIR/$WORLD_NAME.wld\nautocreate=1\nworldname=$WORLD_NAME\nworldpath=$DATA_DIR" > "$CONFIG" && \
