@@ -1,5 +1,5 @@
 # Terraria
-Simple to set up terraria server.
+Simple to set up dedicated terraria server.
 
 ## Running the server
 ```bash
