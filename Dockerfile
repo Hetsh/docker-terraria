@@ -1,7 +1,7 @@
 FROM library/debian:stable-20201012-slim
 RUN DEBIAN_FRONTEND="noninteractive" && \
     apt-get update && \
-    apt-get install  --no-install-recommends --assume-yes \
+    apt-get install --no-install-recommends --assume-yes \
         unzip=6.0-23+deb10u1 && \
     rm -r /var/lib/apt/lists /var/cache/apt
 
@@ -14,7 +14,7 @@ RUN useradd --uid "$APP_UID" --user-group --create-home --home "$DATA_DIR" --she
 # Download app
 ARG APP_DIR="/opt/terraria"
 ARG APP_ARCHIVE="terraria.zip"
-ARG APP_URL="https://terraria.org/system/dedicated_servers/archives/000/000/041/original/terraria-server-1411.zip"
+ARG APP_URL="https://terraria.org/system/dedicated_servers/archives/000/000/042/original/terraria-server-1412.zip"
 ADD "$APP_URL" "$APP_ARCHIVE"
 RUN TMP_DIR="/opt" && \
     unzip -d "$TMP_DIR" "$APP_ARCHIVE" && \
@@ -36,6 +36,6 @@ EXPOSE 7777/tcp
 # Launch parameters
 USER "$APP_USER"
 WORKDIR "$DATA_DIR"
-ENV APP_DIR="$APP_DIR"
-ENV CONFIG="$CONFIG"
+ENV APP_DIR="$APP_DIR" \
+    CONFIG="$CONFIG"
 ENTRYPOINT exec "$APP_DIR/TerrariaServer.bin.x86_64" -config "$CONFIG"
