@@ -2,7 +2,7 @@ FROM library/debian:stable-20210111-slim
 RUN DEBIAN_FRONTEND="noninteractive" && \
     apt-get update && \
     apt-get install --no-install-recommends --assume-yes \
-        unzip=6.0-23+deb10u1 && \
+        unzip=6.0-23+deb10u2 && \
     rm -r /var/lib/apt/lists /var/cache/apt
 
 # App user
