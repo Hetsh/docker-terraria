@@ -1,4 +1,4 @@
-FROM library/debian:stable-20210311-slim
+FROM library/debian:stable-20210326-slim
 RUN DEBIAN_FRONTEND="noninteractive" && \
     apt-get update && \
     apt-get install --no-install-recommends --assume-yes \
