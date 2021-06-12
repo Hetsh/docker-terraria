@@ -1,7 +1,7 @@
 FROM library/debian:stable-20210511-slim
 RUN DEBIAN_FRONTEND="noninteractive" && \
-    apt-get update && \
-    apt-get install --no-install-recommends --assume-yes \
+    apt update && \
+    apt install --no-install-recommends --assume-yes \
         unzip=6.0-23+deb10u2 && \
     rm -r /var/lib/apt/lists /var/cache/apt
 
@@ -18,7 +18,7 @@ ARG APP_URL="https://terraria.org/system/dedicated_servers/archives/000/000/046/
 ADD "$APP_URL" "$APP_ARCHIVE"
 RUN TMP_DIR="/opt" && \
     unzip -d "$TMP_DIR" "$APP_ARCHIVE" && \
-    apt-get purge -y unzip && \
+    apt purge -y unzip && \
     mv "$TMP_DIR/"*"/Linux" "$APP_DIR" && \
     rm -r -f "$APP_ARCHIVE" "$APP_DIR/changelog.txt" "$APP_DIR/lib" "$APP_DIR/Terraria.png" "$APP_DIR/TerrariaServer" && \
     chmod +x "$APP_DIR/TerrariaServer.bin.x86_64" && \
