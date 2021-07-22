@@ -29,6 +29,7 @@ ARG CONFIG="$DATA_DIR/config.txt"
 RUN WORLD_NAME="world" && \
     echo "world=$DATA_DIR/$WORLD_NAME.wld\nautocreate=1\nworldname=$WORLD_NAME\nworldpath=$DATA_DIR" > "$CONFIG" && \
     chown -R "$APP_USER":"$APP_USER" "$DATA_DIR"
+VOLUME ["$DATA_DIR"]
 
 #      GAME
 EXPOSE 7777/tcp
