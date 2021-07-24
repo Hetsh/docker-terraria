@@ -19,11 +19,11 @@ RUN DEBIAN_FRONTEND="noninteractive" && \
     wget --quiet "$APP_URL" && \
     APP_DIR="/opt/terraria" && \
     unzip -q -d "$APP_DIR" "$APP_ARCHIVE" && \
-    mv "$APP_DIR/$APP_VERSION/Linux/"* "$APP_DIR" && \
-    apt purge --assume-yes \
+    apt purge --assume-yes --auto-remove \
         ca-certificates \
         wget \
         unzip && \
+    mv "$APP_DIR/$APP_VERSION/Linux/"* "$APP_DIR" && \
     rm -r \
         /var/lib/apt/lists \
         /var/cache/apt \
