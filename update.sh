@@ -18,7 +18,7 @@ assert_dependency "curl"
 
 # Debian Stable
 IMG_CHANNEL="stable"
-update_image "library/debian" "Debian" "false" "$IMG_CHANNEL-\d+-slim"
+update_image "amd64/debian" "Debian" "false" "$IMG_CHANNEL-\d+-slim"
 
 # Terraria Server
 update_web "APP_VERSION" "Terraria Server" "true" "https://terraria.org/api/get/dedicated-servers-names" "\d+"
