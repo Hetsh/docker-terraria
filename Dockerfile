@@ -8,7 +8,7 @@ RUN useradd --uid "$APP_UID" --user-group --create-home --home "$DATA_DIR" --she
 
 # Install Terraria Server
 ARG APP_VERSION=1431
-ARG APP_ARCHIVE="terraria-server-1423.zip"
+ARG APP_ARCHIVE="terraria-server-$APP_VERSION.zip"
 ARG APP_URL="https://terraria.org/api/download/pc-dedicated-server/$APP_ARCHIVE"
 RUN DEBIAN_FRONTEND="noninteractive" && \
     apt update && \
