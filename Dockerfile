@@ -30,7 +30,6 @@ RUN DEBIAN_FRONTEND="noninteractive" && \
         "$APP_ARCHIVE" \
         "$APP_DIR/$APP_VERSION" \
         "$APP_DIR/changelog.txt" \
-        "$APP_DIR/lib" \
         "$APP_DIR/Terraria.png" \
         "$APP_DIR/TerrariaServer" && \
     chown -R "$APP_USER":"$APP_USER" "$APP_DIR" && \
