@@ -12,6 +12,28 @@ cd "$CWD"
 source libs/common.sh
 source libs/docker.sh
 
+# Check for update on GitHub
+update_custom() {
+	local ID="$1"
+	local NAME="$2"
+	local MIRROR="https://terraria.org/api/get/dedicated-servers-names"
+	local VERSION_REGEX="\d+"
+
+	local CURRENT_VERSION=$(cat Dockerfile | grep --only-matching --perl-regexp "(?<=$ID=)$VERSION_REGEX")
+	local NEW_VERSION=$(curl --silent --location "$MIRROR" | grep --only-matching --perl-regexp "(?<=terraria-server-)$VERSION_REGEX(?=\.zip)")
+	if [ -z "$CURRENT_VERSION" ] || [ -z "$NEW_VERSION" ];then
+		echo -e "\e[31mFailed to scrape $NAME version!\e[0m"
+		return
+	fi
+
+	if [ "$CURRENT_VERSION" = "$NEW_VERSION" ]; then
+		return
+	fi
+
+	prepare_update "$VERSION_ID" "$NAME" "$CURRENT_VERSION" "$NEW_VERSION"
+	update_version "$NEW_VERSION"
+}
+
 # Check dependencies
 assert_dependency "jq"
 assert_dependency "curl"
@@ -21,7 +43,7 @@ IMG_CHANNEL="stable"
 update_image "amd64/debian" "Debian" "false" "$IMG_CHANNEL-\d+-slim"
 
 # Terraria Server
-update_web "APP_VERSION" "Terraria Server" "true" "https://terraria.org/api/get/dedicated-servers-names" "\d+"
+update_custom "APP_VERSION" "Terraria Server"
 
 if ! updates_available; then
 	#echo "No updates available."
