@@ -20,7 +20,7 @@ update_custom() {
 	local VERSION_REGEX="\d+"
 
 	local CURRENT_VERSION=$(cat Dockerfile | grep --only-matching --perl-regexp "(?<=$ID=)$VERSION_REGEX")
-	local NEW_VERSION=$(curl --silent --location "$MIRROR" | grep --only-matching --perl-regexp "(?<=terraria-server-)$VERSION_REGEX(?=\.zip)")
+	local NEW_VERSION=$(curl --silent --location "$MIRROR" | grep --only-matching --perl-regexp "(?<=terraria-server-)$VERSION_REGEX(?=\.zip)" | uniq)
 	if [ -z "$CURRENT_VERSION" ] || [ -z "$NEW_VERSION" ];then
 		echo -e "\e[31mFailed to scrape $NAME version!\e[0m"
 		return
@@ -30,7 +30,7 @@ update_custom() {
 		return
 	fi
 
-	prepare_update "$VERSION_ID" "$NAME" "$CURRENT_VERSION" "$NEW_VERSION"
+	prepare_update "$ID" "$NAME" "$CURRENT_VERSION" "$NEW_VERSION"
 	update_version "$NEW_VERSION"
 }
 
