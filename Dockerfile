@@ -7,7 +7,7 @@ ARG DATA_DIR="/terraria"
 RUN useradd --uid "$APP_UID" --user-group --create-home --home "$DATA_DIR" --shell /sbin/nologin "$APP_USER"
 
 # Install Terraria Server
-ARG APP_VERSION=1445
+ARG APP_VERSION=1446
 ARG APP_ARCHIVE="terraria-server-$APP_VERSION.zip"
 ARG APP_URL="https://terraria.org/api/download/pc-dedicated-server/$APP_ARCHIVE"
 RUN DEBIAN_FRONTEND="noninteractive" && \
