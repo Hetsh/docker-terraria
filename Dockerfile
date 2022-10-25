@@ -1,4 +1,4 @@
-FROM amd64/debian:stable-20221004-slim
+FROM amd64/debian:stable-20221024-slim
 
 # App user
 ARG APP_USER="terraria"
